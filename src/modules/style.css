@@ -1,0 +1,52 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.header {
+  display: flex;
+  justify-content: center;
+}
+.carList {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 90%;
+}
+.listElement {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: center;
+  width: 30%;
+  padding: 0.3em;
+  border : 1px solid grey;
+  margin : 0.3rem;
+  min-height: 300px;
+}
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.pagination button {
+  width : 30px;
+  height: 30px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  background-color: lightblue;
+  margin : 0.2em;
+  color: white;
+  font-size: 16px;
+  transition: 0.3s;
+}
+.pagination button:hover {
+  background-color:#3399ff;
+}
+.pagination button.active {
+  background-color: #3399ff;
+}
