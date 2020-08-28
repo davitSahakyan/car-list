@@ -1,4 +1,4 @@
-export const data = [
+export const carData = [
   {
     "Model": "4Â½-Litre Supercharged 'Blower' Bentley Single-Seater",
     "Brand": "Bentley",

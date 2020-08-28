@@ -4,18 +4,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <script src="./dist/boundle.js" defer></script>
   <title>car-list</title>
 </head>
 
 <body>
   <div id="root">
-    <div class="header">
-      <h1>Car list</h1>
-    </div>
     <div class="wrapper">
-      <div class="carList" id="carList"></div>
-      <div class="pagination" id="pagination"></div>
+      <div id="header"></div>
+      <div id="carList" class="grid"></div>
+      <div class="paginationContainer">
+        <button class="pageChange" id="DECREMENT" style="font-size:24px"><i class="fa fa-angle-left"></i></button>
+        <div class="pagination" id="pagination"></div>
+        <button class="pageChange" id="INCREMENT" style="font-size:24px"> <i class="fa fa-angle-right"></i></button>
+      </div>
     </div>
   </div>
 
