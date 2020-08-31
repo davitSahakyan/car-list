@@ -13,8 +13,14 @@
 <body>
   <div id="root">
     <div class="wrapper">
-      <div id="header"></div>
-      <div id="carList" class="grid"></div>
+      <div id="carList" class="grid">
+        <div class="listElement draggable" id="Brand" draggable="true"></div>
+        <div class="listElement draggable" id="Model" draggable="true"></div>
+        <div class="listElement draggable" id="Date" draggable="true"></div>
+        <div class="listElement draggable" id="Horsepower" draggable="true"></div>
+        <div class="listElement draggable" id="Transmission" draggable="true"></div>
+        <div class="listElement draggable" id="Class" draggable="true"></div>
+      </div>
       <div class="paginationContainer">
         <button class="pageChange" id="DECREMENT" style="font-size:24px"><i class="fa fa-angle-left"></i></button>
         <div class="pagination" id="pagination"></div>
