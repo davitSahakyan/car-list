@@ -1,20 +1,30 @@
 import { carData } from './data.js'
 
-let data = carData;
+const randomIdGenerator =  () => {
+  // Math.random should be unique because of its seeding algorithm.
+  // Convert it to base 36 (numbers + letters), and grab the first 9 characters
+  // after the decimal.
+  return '_' + Math.random().toString(36).substr(2, 9);
+};
+
+const dataWithId = carData.map( item => {
+  return {...item , id : randomIdGenerator()}
+})
+let data = JSON.parse(localStorage.getItem("data")) || [...dataWithId]
 
 const list = document.getElementById("carList");
 const pagination = document.getElementById("pagination")
 const pageChangeButtons = Array.from(document.getElementsByClassName("pageChange"))
 const listElements = Array.from(document.getElementsByClassName("listElement"))
+const deleteBtnContainer = document.getElementById("deleteButtonContainer")
+const modalElement = document.getElementById("modalElement")
 
 // Drag
 const draggables = Array.from(document.getElementsByClassName("draggable"))
 
-const arrayOfKeys = [...Object.keys(data[0])]
 
 let currentPage = 1;
 const itemsPerPage = 10;
-
 const pagesCount = Math.ceil(data.length / itemsPerPage)
 
 const createModal = () => {
@@ -23,7 +33,6 @@ const createModal = () => {
   const textContainer = document.createElement("p")
   const deleteButton = document.createElement("button")
   const cancelButton = document.createElement("button")
-
   textContainer.textContent = "Are you sure you want to delete?";
   deleteButton.textContent = "Delete"
   cancelButton.textContent = "Cancel"
@@ -42,21 +51,45 @@ const createModal = () => {
 
   modalContainer.appendChild(modalContent)
 
-  const rootElement = document.getElementById("root")
-  rootElement.appendChild(modalContainer)
-
+  modalElement.appendChild(modalContainer)
 }
-createModal()
+
+const openDeleteModal = (id) => {
+  modalElement.innerHTML = ""
+  createModal()
+  const modal = document.getElementById("myModal")
+  modal.style.display = "block";
+
+  const deleteButton = document.getElementById("deleteButton")
+  const cancelButton = document.getElementById("cancelButton")
+  cancelButton.addEventListener("click", () => {
+  modal.style.display = "none"
+    })
+
+  window.onclick = function (event) {
+    if (event.target == modal) {
+       modal.style.display = "none";
+    }
+  }
+
+  deleteButton.addEventListener("click" , () => {
+   data = data.filter( item => {
+       return item.id !== id
+    })
+    modal.style.display = "none"
+    localStorage.setItem("data", JSON.stringify(data));
+    showList(data, list, itemsPerPage, currentPage);
+  })
+}
 
 const showList = (items, wrapper, itemsPerPage, page) => {
   listElements.forEach(element => element.innerHTML = '')
+  deleteBtnContainer.innerHTML = ""
   page--;
 
   let startItem = itemsPerPage * page;
   let endItem = startItem + itemsPerPage;
   let paginationItems = items.slice(startItem, endItem)
-
-
 
   for (let element = 0; element < listElements.length; element++) {
     const span = document.createElement("span");
@@ -69,6 +102,21 @@ const showList = (items, wrapper, itemsPerPage, page) => {
       span.textContent = `${listItem[listElements[element].id]}`
       listElements[element].appendChild(span)
     }
+  }
+
+
+  const span = document.createElement("span")
+  span.textContent = " "
+  deleteBtnContainer.appendChild(span)
+  for( let i = 0 ; i < paginationItems.length ; i++){
+    const id =  `${paginationItems[i].id}`
+    const iTag = document.createElement("i");
+    iTag.setAttribute( "data-id" ,  `${paginationItems[i].id}`)
+    iTag.classList = "deleteButton fa fa-trash-o"
+    iTag.addEventListener("click" , () =>{
+       openDeleteModal(id)
+    })
+    deleteBtnContainer.appendChild(iTag)
   }
 }
 draggables.forEach(draggable => {
@@ -85,11 +133,10 @@ list.addEventListener("dragover", (e) => {
   e.preventDefault()
   const afterElement = getDragAfterElement(list, e.clientX)
   const draggable = document.querySelector(".dragging");
-  if (afterElement == null) {
-    list.appendChild(draggable)
-  } else {
-    list.insertBefore(draggable, afterElement)
-  }
+  const actions = Array.from(document.getElementsByClassName("action"));
+  const afterEl = afterElement == null ? actions[0] : afterElement;
+  list.insertBefore(draggable, afterEl)
+
 })
 
 function getDragAfterElement(list, x) {
@@ -105,36 +152,6 @@ function getDragAfterElement(list, x) {
     }
   }, { offset: Number.NEGATIVE_INFINITY }).element
 }
-
-const deleteButtons = Array.from(document.getElementsByClassName("deleteBtn"))
-deleteButtons.forEach(button => {
-  button.addEventListener("click", () => {
-    const modal = document.getElementById("myModal")
-    modal.style.display = "block";
-
-    const deleteButton = document.getElementById("deleteButton")
-    const cancelButton = document.getElementById("cancelButton")
-    cancelButton.addEventListener("click", () => {
-      modal.style.display = "none"
-    })
-
-    window.onclick = function (event) {
-      if (event.target == modal) {
-        modal.style.display = "none";
-      }
-    }
-
-    deleteButton.addEventListener("click", () => {
-      const newCarData = data.filter((car, index) => {
-        return index !== Number(button.id)
-      })
-      data = [...newCarData];
-      showList(data, list, itemsPerPage, currentPage);
-    })
-  })
-})
-
-
 
 
 const singlePaginationButton = (page) => {
