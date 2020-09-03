@@ -13,7 +13,7 @@ const pageChangeButtons = Array.from(document.getElementsByClassName("pageChange
 const listElements = Array.from(document.getElementsByClassName("listElement"))
 const deleteBtnContainer = document.getElementById("deleteButtonContainer")
 const modalElement = document.getElementById("modalElement")
-// FORM ELEMENT
+// form element
 const carForm = document.getElementById("carForm")
 // Drag
 const draggables = Array.from(document.getElementsByClassName("draggable"))
@@ -99,8 +99,8 @@ carEditButton.addEventListener('click' , (e) => {
   e.preventDefault()
 })
 }
-
 // EDIT CLICKED ELEMENT END ////////////////////////////////
+// Showlist starts here
 const showList = (items, wrapper, itemsPerPage, page) => {
   listElements.forEach(element => element.innerHTML = '')
   deleteBtnContainer.innerHTML = ""
@@ -122,7 +122,7 @@ const showList = (items, wrapper, itemsPerPage, page) => {
       listElements[element].appendChild(span)
     }
   }
-
+  // Add car button
   const addIconTag = document.createElement("i")
   const span = document.createElement("span")
   addIconTag.classList = "fa fa-plus iconTag"
@@ -133,6 +133,7 @@ const showList = (items, wrapper, itemsPerPage, page) => {
   deleteBtnContainer.appendChild(addIconTag)
   deleteBtnContainer.appendChild(span)
 
+  // Add delete button and edit button and their events
   for( let i = 0 ; i < paginationItems.length ; i++){
     const id =  `${paginationItems[i].id}`
     const editTag = document.createElement("i");
@@ -150,17 +151,18 @@ const showList = (items, wrapper, itemsPerPage, page) => {
     deleteBtnContainer.appendChild(iTag)
     deleteBtnContainer.appendChild(editTag)
   }
-
+  
   draggables.forEach(draggable => {
+    // Add class dragging on dragstart
     draggable.addEventListener("dragstart", () => {
       draggable.classList.add("dragging")
     })
-  
+    // Remove class dragging on dragend
     draggable.addEventListener("dragend", () => {
       draggable.classList.remove("dragging")
     })
   })
-  
+    // insert dragging element before after element
     list.addEventListener("dragover", (e) => {
     e.preventDefault()
     const afterElement = getDragAfterElement(list, e.clientX)
@@ -171,11 +173,10 @@ const showList = (items, wrapper, itemsPerPage, page) => {
   }) 
 }
 
-
-
+// gets drag after element
 function getDragAfterElement(list, x) {
   const draggableElements = [...list.querySelectorAll(".draggable:not(.dragging)")]
-
+  
   return draggableElements.reduce((closest, child) => {
     const box = child.getBoundingClientRect();
     const offset = x - box.left - box.width / 2
@@ -187,7 +188,7 @@ function getDragAfterElement(list, x) {
   }, { offset: Number.NEGATIVE_INFINITY }).element
 }
 
-
+//  creates single pagination button and recives event click
 const singlePaginationButton = (page) => {
   let button = document.createElement("button");
   button.textContent = page;
@@ -206,7 +207,7 @@ const singlePaginationButton = (page) => {
 
   return button
 }
-
+// creates pagination using  singlePaginationButton
 const showPagination = wrapper => {
   wrapper.innerHTML = '';
   pagination.innerHTML = "";
@@ -248,7 +249,6 @@ nextAndPrev()
 const addClass = (element) => {
   element.parentElement.classList = "form-group hasError";
 }
-
 // Add hasError class to input parent element and return inputs are valid or not
 const addErrorClass = (inputs) => {
   let inputsAreValid = true;
@@ -260,7 +260,7 @@ const addErrorClass = (inputs) => {
   });
   return inputsAreValid
 };
-
+// Add new car
 if (carForm) {
   carForm.addEventListener("submit", (e) => {
     const inputs = Array.from(document.getElementsByClassName("form-control"));
@@ -283,8 +283,3 @@ if(list){
 showList(data, list, itemsPerPage, currentPage)
 showPagination(data, pagination, itemsPerPage)
 }
-
- 
-
-
-
