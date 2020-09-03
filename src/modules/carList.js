@@ -92,7 +92,7 @@ const editButton = () =>{
      }
    })
    localStorage.setItem("data", JSON.stringify(editedlocalStorageData))
-   location.assign("./index.html");
+   location.assign("./carList.html");
 }
 carEditButton.addEventListener('click' , (e) => {
   editButton()
@@ -128,8 +128,7 @@ const showList = (items, wrapper, itemsPerPage, page) => {
   addIconTag.classList = "fa fa-plus iconTag"
   span.textContent = ' '
   addIconTag.addEventListener("click" , () => {
-    carAddContainer.classList.remove("displayNone")
-    carAddContainer.classList.add("opened")
+    location.assign("./addCar.html");
   })
   deleteBtnContainer.appendChild(addIconTag)
   deleteBtnContainer.appendChild(span)
@@ -140,7 +139,7 @@ const showList = (items, wrapper, itemsPerPage, page) => {
     const iTag = document.createElement("i");
     iTag.setAttribute( "data-id" ,  `${paginationItems[i].id}`)
     editTag.setAttribute("data-id" ,  `${paginationItems[i].id}`)
-    iTag.classList = "deleteButton fa fa-trash-o"
+    iTag.classList = "deleteButton carDeleteButton fa fa-trash-o"
     editTag.classList = "editButton fa fa-edit"
     iTag.addEventListener("click" , () =>{
        openDeleteModal(id)
@@ -274,17 +273,11 @@ if (carForm) {
       const formDataWithId =  {...formData , id : helpers.randomIdGenerator()}
       data = [...data , formDataWithId]
       localStorage.setItem("data", JSON.stringify(data));
-      showList(data, list, itemsPerPage, currentPage);
-      showPagination(data, pagination, itemsPerPage)
-      // close add car div
-      carAddContainer.classList.remove("opened");
-      carAddContainer.classList.add("displayNone");   
+      location.assign("./carList.html");   
     }
     e.preventDefault();
   });
 }
-
-
 
 if(list){
 showList(data, list, itemsPerPage, currentPage)

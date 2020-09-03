@@ -1,75 +1,56 @@
+  
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <script src="./dist/boundle.js" defer></script>
-  <title>car-list</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="./dist/boundle.js" defer></script>
+    <title>Registration</title>
 </head>
 
 <body>
-  <div id="root">
-    <div class="wrapper">
-      <div id="carList" class="grid">
-        <div class="listElement draggable" id="Brand" draggable="true"></div>
-        <div class="listElement draggable" id="Model" draggable="true"></div>
-        <div class="listElement draggable" id="Date" draggable="true"></div>
-        <div class="listElement draggable" id="Horsepower" draggable="true"></div>
-        <div class="listElement draggable" id="Transmission" draggable="true"></div>
-        <div class="listElement draggable" id="Class" draggable="true"></div>
-        <div class="deleteButtonContainer action" id="deleteButtonContainer"></div>
-      </div>
-      
-      
-      <div class="paginationContainer">
-        <button class="pageChange" id="DECREMENT" style="font-size:24px"><i class="fa fa-angle-left"></i></button>
-        <div class="pagination" id="pagination"></div>
-        <button class="pageChange" id="INCREMENT" style="font-size:24px"> <i class="fa fa-angle-right"></i></button>
-      </div>
-      <div id="modalElement"></div>
-      <!-- Car add part starts here -->
-      <div id="carAddContainer" class="displayNone">
-        <form class="carform" method="GET" name="carForm" id="carForm">
-            <div class="form-group">
-                <label class="title">Brand</label>
-                <input type="text" class="form-control" name="Brand">
-                <span>Please fill up Brand</span>
-            </div>
-            <div class="form-group">
-                <label class="title">Model</label>
-                <input type="text" class="form-control" name="Model">
-                <span>Please fill up Model</span>
-            </div>
-            <div class="form-group">
-                <label class="title">Date</label>
-                <input type="text" class="form-control" name="Date">
-                <span> Please fill up Date</span>
-            </div>
-            <div class="form-group">
-                <label class="title">Horsepower</label>
-                <input type="text" class="form-control" name="Horsepower">
-                <span> Please fill up Horsepower</span>
-            </div>
-            <div class="form-group">
-              <label class="title">Transmission</label>
-              <input type="text" class="form-control" name="Transmission">
-              <span> Please fill up Transmission </span>
-          </div>
-          <div class="form-group">
-              <label class="title">Class</label>
-              <input type="text" class="form-control" name="Class">
-              <span> Please fill up Class </span>
-          </div>
-            <button type="submit" id="submitButton">Create</button>
-        </form>
-     </div>
-    <!-- Car add part ends here -->  
-    </div>
-  </div>
+    <div class="container">
+        <h1>Registration</h1>
+        <div class="loginContainer">
+            <form class="form" method="GET" name="form" id="form">
+                <div class="form-group">
+                    <label class="title">login</label>
+                    <input type="text" class="form-control" name="login">
+                    <span>Please fill up your login</span>
+                    <span>User with this login exists</span>
+                </div>
+                <div class="form-group">
+                    <label class="title">name</label>
+                    <input type="text" class="form-control" name="name">
+                    <span>Please fill up your name</span>
+                </div>
+                <div class="form-group">
+                    <label class="title">lastname</label>
+                    <input type="text" class="form-control" name="lastname">
+                    <span> Please fill up your lastname </span>
+                </div>
+                <div class="form-group">
+                    <label class="title">password</label>
+                    <input type="password" class="form-control" name="password">
+                    <span> Please fill up your password </span>
+                </div>
+                <div class="form-group">
+                    <label class="title">gender</label>
+                    <input class="form-control" type="radio" id="maleInput" name="gender" value="male">
+                    <label for="maleInput">Male</label>
+                    <input class="form-control" type="radio" id="famaleInput" name="gender" value="famale">
+                    <label for="famaleInput">Famale</label>
+                    <span> Please choose gender</span>
+                </div>
 
+                <button type="submit" id="loginButton">Registrate</button>
+                <span>if you already have account
+                    <a href="./login.html">log in</a>
+                </span>
+            </form>
+        </div>
+    </div>
 </body>
 
 </html>

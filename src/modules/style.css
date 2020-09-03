@@ -195,3 +195,16 @@ body {
   display: grid;
   grid-template-columns: repeat(2 , 1fr);
 }
+.carDeleteButton {
+  color : red;
+  font-size: 25px;
+}
+.editButton {
+  color: blue;
+  font-size: 25px;
+}
+
+/* ////////////////// */
+.red {
+  color: red;
+}
