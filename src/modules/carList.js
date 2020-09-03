@@ -1,11 +1,11 @@
 import { carData } from './data.js'
 import * as helpers from './helpers.js'
 
-
-const dataWithId = carData.map( item => {
+const DATA_WITH_ID = carData.map( item => {
   return {...item , id : helpers.randomIdGenerator()}
 })
-let data = JSON.parse(localStorage.getItem("data")) || [...dataWithId]
+let data = JSON.parse(localStorage.getItem("data")) || [...DATA_WITH_ID]
+
 
 const list = document.getElementById("carList");
 const pagination = document.getElementById("pagination")
@@ -61,8 +61,46 @@ const openDeleteModal = (id) => {
     }
   })
 }
+// EDIT CLICKED ELEMENT ////////////////////////////////////////////////////////////
+const editClickedCarElement = (id) => {
+  localStorage.setItem("id", id);
+  localStorage.setItem("data", JSON.stringify(data))
+  location.assign("./edit.html");
+}
 
+const carEditButton = document.getElementById("editButton")
+if(carEditButton){
+ const id = localStorage.getItem("id");
+ const localStorageData = JSON.parse(localStorage.getItem("data"));
+ const car = localStorageData.find( item => {
+  return item.id === id  
+ })
+ const inputs =  Array.from(document.getElementsByClassName("edit-form-control"))
+ inputs.forEach( (input , index) => {
+   input.value = Object.values(car)[index]
+ })
 
+const editButton = () =>{
+  const formData = Object.fromEntries(
+    new FormData(document.getElementById("carEditForm")).entries()
+   );
+   const editedlocalStorageData = localStorageData.map(item => {
+     if(item.id === id){
+       return {...formData , id : id}
+     }else {
+       return item
+     }
+   })
+   localStorage.setItem("data", JSON.stringify(editedlocalStorageData))
+   location.assign("./index.html");
+}
+carEditButton.addEventListener('click' , (e) => {
+  editButton()
+  e.preventDefault()
+})
+}
+
+// EDIT CLICKED ELEMENT END ////////////////////////////////
 const showList = (items, wrapper, itemsPerPage, page) => {
   listElements.forEach(element => element.innerHTML = '')
   deleteBtnContainer.innerHTML = ""
@@ -86,44 +124,55 @@ const showList = (items, wrapper, itemsPerPage, page) => {
   }
 
   const addIconTag = document.createElement("i")
+  const span = document.createElement("span")
   addIconTag.classList = "fa fa-plus iconTag"
+  span.textContent = ' '
   addIconTag.addEventListener("click" , () => {
     carAddContainer.classList.remove("displayNone")
     carAddContainer.classList.add("opened")
   })
   deleteBtnContainer.appendChild(addIconTag)
+  deleteBtnContainer.appendChild(span)
 
   for( let i = 0 ; i < paginationItems.length ; i++){
     const id =  `${paginationItems[i].id}`
+    const editTag = document.createElement("i");
     const iTag = document.createElement("i");
     iTag.setAttribute( "data-id" ,  `${paginationItems[i].id}`)
+    editTag.setAttribute("data-id" ,  `${paginationItems[i].id}`)
     iTag.classList = "deleteButton fa fa-trash-o"
+    editTag.classList = "editButton fa fa-edit"
     iTag.addEventListener("click" , () =>{
        openDeleteModal(id)
     })
+    editTag.addEventListener("click" , () =>{
+      editClickedCarElement(id)
+   })
     deleteBtnContainer.appendChild(iTag)
+    deleteBtnContainer.appendChild(editTag)
   }
+
+  draggables.forEach(draggable => {
+    draggable.addEventListener("dragstart", () => {
+      draggable.classList.add("dragging")
+    })
+  
+    draggable.addEventListener("dragend", () => {
+      draggable.classList.remove("dragging")
+    })
+  })
+  
+    list.addEventListener("dragover", (e) => {
+    e.preventDefault()
+    const afterElement = getDragAfterElement(list, e.clientX)
+    const draggable = document.querySelector(".dragging");
+    const actions = Array.from(document.getElementsByClassName("action"));
+    const afterEl = afterElement == null ? actions[0] : afterElement;
+    list.insertBefore(draggable, afterEl)
+  }) 
 }
 
-draggables.forEach(draggable => {
-  draggable.addEventListener("dragstart", () => {
-    draggable.classList.add("dragging")
-  })
 
-  draggable.addEventListener("dragend", () => {
-    draggable.classList.remove("dragging")
-  })
-})
-
-list.addEventListener("dragover", (e) => {
-  e.preventDefault()
-  const afterElement = getDragAfterElement(list, e.clientX)
-  const draggable = document.querySelector(".dragging");
-  const actions = Array.from(document.getElementsByClassName("action"));
-  const afterEl = afterElement == null ? actions[0] : afterElement;
-  list.insertBefore(draggable, afterEl)
-
-})
 
 function getDragAfterElement(list, x) {
   const draggableElements = [...list.querySelectorAll(".draggable:not(.dragging)")]
@@ -170,8 +219,9 @@ const showPagination = wrapper => {
   }
 
 }
-
-pageChangeButtons.forEach(item => {
+// next and prev page buttons 
+const nextAndPrev = () =>{
+  pageChangeButtons.forEach(item => {
   item.addEventListener("click", (e) => {
     if (e.currentTarget.id === 'INCREMENT' && currentPage < pagesCount) {
       currentPage = currentPage + 1;
@@ -192,14 +242,15 @@ pageChangeButtons.forEach(item => {
 
   })
 })
+}
+nextAndPrev()
+
 
 const addClass = (element) => {
   element.parentElement.classList = "form-group hasError";
 }
-const removeClass = (element) => {
-  element.parentElement.classList.remove("hasError")
-}
 
+// Add hasError class to input parent element and return inputs are valid or not
 const addErrorClass = (inputs) => {
   let inputsAreValid = true;
   inputs.forEach((input) => {
@@ -233,7 +284,14 @@ if (carForm) {
   });
 }
 
+
+
+if(list){
 showList(data, list, itemsPerPage, currentPage)
 showPagination(data, pagination, itemsPerPage)
+}
+
+ 
+
 
 

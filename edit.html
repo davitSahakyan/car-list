@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="./dist/boundle.js" defer></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="carEditContainer" class="editContainer">
+        <form class="carform" method="GET" name="carEditForm" id="carEditForm">
+            <div class="form-group">
+                <label class="title">Model</label>
+                <input type="text" class="edit-form-control" name="Model">
+                <span>Please fill up Model</span>
+            </div>
+            <div class="form-group">
+                <label class="title">Brand</label>
+                <input type="text" class="edit-form-control" name="Brand">
+                <span>Please fill up Brand</span>
+            </div>
+            <div class="form-group">
+                <label class="title">Date</label>
+                <input type="text" class="edit-form-control" name="Date">
+                <span> Please fill up Date</span>
+            </div>
+            <div class="form-group">
+                <label class="title">Horsepower</label>
+                <input type="text" class="edit-form-control" name="Horsepower">
+                <span> Please fill up Horsepower</span>
+            </div>
+            <div class="form-group">
+              <label class="title">Transmission</label>
+              <input type="text" class="edit-form-control" name="Transmission">
+              <span> Please fill up Transmission </span>
+          </div>
+          <div class="form-group">
+              <label class="title">Class</label>
+              <input type="text" class="edit-form-control" name="Class">
+              <span> Please fill up Class </span>
+          </div>
+            <button type="submit" id="editButton">Edit</button>
+        </form>
+     </div>
+</body>
+</html>
