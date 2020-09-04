@@ -1,38 +1,51 @@
+const LOGIN_FILL_UP_ERROR_TEXT = "Please fill up your login";
+const LOGIN_USER_EXISTS_TEXT = "User with this login exists";
+const NAME_FILL_UP_TEXT = "Please fill up your name";
+const LASTNAME_FILL_UP_TEXT = "Please fill up your lastname";
+const PASSWORD_FILL_UP_TEXT = "Please fill up your password";
+
 const inputs = Array.from(document.getElementsByClassName("form-control"));
 
 const form = document.getElementById("form");
-const loginForm = document.getElementById("loginForm");
 
 const removeSpace = (string) => string.replace(/\s+/, "");
 
 let users = JSON.parse(localStorage.getItem("users")) || [];
 
 const removeClass = (element) => {
-    element.parentElement.classList.remove("hasError");
+    const errorSpans = element.parentElement.getElementsByClassName("errorSpan");
+    if (errorSpans) {
+        Array.from(errorSpans).forEach(item => item.remove());
+    }
     return true;
 };
-const addClass = (element) => {
-    element.parentElement.classList = "form-group hasError";
+const addErrorSpan = (element, spanContent) => {
+    const errorSpan = document.createElement("span");
+    errorSpan.classList = "errorSpan";
+    errorSpan.textContent = spanContent;
+    element.parentElement.appendChild(errorSpan);
 };
 
 const addErrorClass = (inputs) => {
     let inputsAreValid = true;
+    if (document.getElementsByClassName("errorSpan")) {
+        Array.from(document.getElementsByClassName("errorSpan")).forEach(item => item.remove());
+    }
     inputs.forEach((input) => {
         if (input.name === "login" && input.value.length < 6) {
-            addClass(input);
+            addErrorSpan(input, LOGIN_FILL_UP_ERROR_TEXT);
             inputsAreValid = false;
         }
         if (input.name === "name" && input.value.length <= 2) {
-            input.parentElement.classList = "form-group hasError";
-            addClass(input);
+            addErrorSpan(input, NAME_FILL_UP_TEXT);
             inputsAreValid = false;
         }
         if (input.name === "lastname" && input.value.length <= 2) {
-            addClass(input);
+            addErrorSpan(input, LASTNAME_FILL_UP_TEXT);
             inputsAreValid = false;
         }
         if (input.name === "password" && input.value.length < 6) {
-            addClass(input);
+            addErrorSpan(input, PASSWORD_FILL_UP_TEXT);
             inputsAreValid = false;
         }
     });
@@ -64,14 +77,14 @@ const validation = () => {
     if (inputsAreValid) {
         let loginInput = inputs.find((input) => input.name === "login");
         if (users.length) {
-            canCreateUser = !Boolean(users.find(user => user.login === loginInput.value && loginInput.name === "login"))
+            canCreateUser = !!(users.find(user => user.login === loginInput.value && loginInput.name === "login"));
         } else {
             canCreateUser = true;
         }
     }
     if (inputsAreValid && !canCreateUser) {
         let loginInput = inputs.find((input) => input.name === "login");
-        loginInput.parentElement.classList = "form-group hasError";
+        addErrorSpan(loginInput, LOGIN_USER_EXISTS_TEXT);
     }
     if (canCreateUser) {
         console.log("inputsAreValid", inputsAreValid);
@@ -81,42 +94,12 @@ const validation = () => {
         users.push(formData);
         localStorage.setItem("users", JSON.stringify(users));
         alert("you have successfully registered");
-        window.location = "./home.html";
+        window.location = "./src/modules/home/home.html";
     }
 };
 
-const verifyUser = () => {
-    let inputsAreValid;
-    inputsAreValid = addErrorClass(inputs);
-    if (inputsAreValid) {
-        const formData = Object.fromEntries(
-            new FormData(document.getElementById("loginForm")).entries()
-        );
-        let foundRegistredUser = users.find(
-            (user) =>
-                user.login === formData.login &&
-                user.password === formData.password
-        );
-        if (foundRegistredUser) {
-            window.location = "./home.html";
-        } else {
-            inputs.forEach(
-                (input) =>
-                    (input.parentElement.classList = "form-group hasError")
-            );
-        }
-    }
-};
 
-if (form) {
-    form.addEventListener("submit", (e) => {
-        validation();
-        e.preventDefault();
-    });
-}
-if (loginForm) {
-    loginForm.addEventListener("submit", (e) => {
-        verifyUser();
-        e.preventDefault();
-    });
-}
+form.addEventListener("submit", (e) => {
+    validation();
+    e.preventDefault();
+});

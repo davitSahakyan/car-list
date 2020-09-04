@@ -1,0 +1,33 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.loginContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.form {
+    display: flex;
+    flex-direction: column;
+}
+.form-group {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.form input {
+    font-size: 20px;
+}
+.title {
+    margin: 10px 0;
+    color: lightgray;
+}
+#loginButton {
+    margin-top: 15px;
+    cursor: pointer;
+    outline: none;
+    font-size: 20px;
+}

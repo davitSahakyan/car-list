@@ -1,11 +1,11 @@
-  
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="./dist/boundle.js" defer></script>
+    <link rel="stylesheet" type="text/css" href="./src/modules/registration/registration.css">
+    <script src="./src/modules/registration/registartion.js" defer></script>
     <title>Registration</title>
 </head>
 
@@ -17,23 +17,18 @@
                 <div class="form-group">
                     <label class="title">login</label>
                     <input type="text" class="form-control" name="login">
-                    <span>Please fill up your login</span>
-                    <span>User with this login exists</span>
                 </div>
                 <div class="form-group">
                     <label class="title">name</label>
                     <input type="text" class="form-control" name="name">
-                    <span>Please fill up your name</span>
                 </div>
                 <div class="form-group">
                     <label class="title">lastname</label>
                     <input type="text" class="form-control" name="lastname">
-                    <span> Please fill up your lastname </span>
                 </div>
                 <div class="form-group">
                     <label class="title">password</label>
                     <input type="password" class="form-control" name="password">
-                    <span> Please fill up your password </span>
                 </div>
                 <div class="form-group">
                     <label class="title">gender</label>
@@ -41,12 +36,11 @@
                     <label for="maleInput">Male</label>
                     <input class="form-control" type="radio" id="famaleInput" name="gender" value="famale">
                     <label for="famaleInput">Famale</label>
-                    <span> Please choose gender</span>
                 </div>
 
                 <button type="submit" id="loginButton">Registrate</button>
                 <span>if you already have account
-                    <a href="./login.html">log in</a>
+                    <a href="./src/modules/login/login.html">log in</a>
                 </span>
             </form>
         </div>
