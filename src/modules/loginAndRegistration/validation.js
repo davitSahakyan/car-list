@@ -10,49 +10,49 @@ let users = JSON.parse(localStorage.getItem("users")) || [];
 const removeClass = (element) => {
     element.parentElement.classList.remove("hasError");
     return true;
-}
+};
 const addClass = (element) => {
     element.parentElement.classList = "form-group hasError";
-}
+};
 
 const addErrorClass = (inputs) => {
     let inputsAreValid = true;
     inputs.forEach((input) => {
         if (input.name === "login" && input.value.length < 6) {
-            addClass(input)
-            inputsAreValid = false
+            addClass(input);
+            inputsAreValid = false;
         }
         if (input.name === "name" && input.value.length <= 2) {
             input.parentElement.classList = "form-group hasError";
-            addClass(input)
-            inputsAreValid = false
+            addClass(input);
+            inputsAreValid = false;
         }
         if (input.name === "lastname" && input.value.length <= 2) {
-            addClass(input)
-            inputsAreValid = false
+            addClass(input);
+            inputsAreValid = false;
         }
         if (input.name === "password" && input.value.length < 6) {
-            addClass(input)
-            inputsAreValid = false
+            addClass(input);
+            inputsAreValid = false;
         }
     });
-    return inputsAreValid
+    return inputsAreValid;
 };
 
 inputs.forEach((input) => {
     input.addEventListener("textInput", () => {
         let WithoutFirstSpace = removeSpace(input.value);
         if (input.name === "login" && WithoutFirstSpace.length >= 6) {
-            return removeClass(input)
+            return removeClass(input);
         }
         if (input.name === "name" && WithoutFirstSpace.length >= 2) {
-            return removeClass(input)
+            return removeClass(input);
         }
         if (input.name === "lastname" && WithoutFirstSpace.length >= 2) {
-            return removeClass(input)
+            return removeClass(input);
         }
         if (input.name === "password" && WithoutFirstSpace.length >= 6) {
-            return removeClass(input)
+            return removeClass(input);
         }
     });
 });
