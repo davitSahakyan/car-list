@@ -93,8 +93,8 @@ const validation = () => {
         );
         users.push(formData);
         localStorage.setItem("users", JSON.stringify(users));
-        // alert("you have successfully registered");
-        // window.location = "./src/modules/home/home.html";
+        alert("you have successfully registered");
+        window.location = "./src/modules/home/home.html";
     }
 };
 

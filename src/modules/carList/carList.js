@@ -4,7 +4,7 @@ import * as utils from "../utils.js";
 const DATA_WITH_ID = carData.map(item => {
   return { ...item, id: utils.randomIdGenerator() };
 });
-let data = JSON.parse(localStorage.getItem("data")) || localStorage.setItem("data", JSON.stringify([...DATA_WITH_ID]));
+let data = JSON.parse(localStorage.getItem("data")) || localStorage.setItem("data", JSON.stringify([...DATA_WITH_ID])) || DATA_WITH_ID;
 
 
 const list = document.getElementById("carList");
@@ -64,47 +64,54 @@ const showList = (items, wrapper, itemsPerPage, page) => {
   let startItem = itemsPerPage * page;
   let endItem = startItem + itemsPerPage;
   let paginationItems = items.slice(startItem, endItem);
-
+  // For each element in car list they are 7
   for (let element = 0; element < listElements.length; element++) {
+    console.log("listElements", listElements)
     const span = document.createElement("span");
-    span.classList = `${listElements[element].id} headerSpan`;
-    span.textContent = `${listElements[element].id}`;
-    listElements[element].appendChild(span);
+    // if element is button container
+    if (listElements[element].id !== "deleteButtonContainer") {
+      span.classList = `${listElements[element].id} headerSpan`;
+      span.textContent = `${listElements[element].id}`;
+      listElements[element].appendChild(span);
+    }
+    // for each pagination item 
     for (let i = 0; i < paginationItems.length; i++) {
       let listItem = paginationItems[i];
       const span = document.createElement("span");
-      span.textContent = `${listItem[listElements[element].id]}`;
-      listElements[element].appendChild(span);
+      // if it is button container create buttons
+      if (listElements[element].id === "deleteButtonContainer") {
+        const id = `${paginationItems[i].id}`;
+        const editTag = document.createElement("i");
+        const iTag = document.createElement("i");
+        iTag.setAttribute("data-id", `${paginationItems[i].id}`);
+        editTag.setAttribute("data-id", `${paginationItems[i].id}`);
+        iTag.classList = "deleteButton carDeleteButton fa fa-trash-o";
+        editTag.classList = "editButton fa fa-edit";
+        iTag.addEventListener("click", () => {
+          openDeleteModal(id);
+        });
+        editTag.addEventListener("click", () => {
+          editClickedCarElement(id);
+        });
+        // Add carAdd button if it is first item
+        if (i === 0) {
+          const addIconTag = document.createElement("i");
+          const span = document.createElement("span");
+          addIconTag.classList = "fa fa-plus iconTag";
+          span.textContent = " ";
+          addIconTag.addEventListener("click", () => {
+            location.assign("../addCar/addCar.html");
+          });
+          deleteBtnContainer.appendChild(addIconTag);
+          deleteBtnContainer.appendChild(span);
+        }
+        deleteBtnContainer.appendChild(iTag);
+        deleteBtnContainer.appendChild(editTag);
+      } else {
+        span.textContent = `${listItem[listElements[element].id]}`;
+        listElements[element].appendChild(span);
+      }
     }
-  }
-  // Add car button
-  const addIconTag = document.createElement("i");
-  const span = document.createElement("span");
-  addIconTag.classList = "fa fa-plus iconTag";
-  span.textContent = " ";
-  addIconTag.addEventListener("click", () => {
-    location.assign("../addCar/addCar.html");
-  });
-  deleteBtnContainer.appendChild(addIconTag);
-  deleteBtnContainer.appendChild(span);
-
-  // Add delete button and edit button and their events
-  for (let i = 0; i < paginationItems.length; i++) {
-    const id = `${paginationItems[i].id}`;
-    const editTag = document.createElement("i");
-    const iTag = document.createElement("i");
-    iTag.setAttribute("data-id", `${paginationItems[i].id}`);
-    editTag.setAttribute("data-id", `${paginationItems[i].id}`);
-    iTag.classList = "deleteButton carDeleteButton fa fa-trash-o";
-    editTag.classList = "editButton fa fa-edit";
-    iTag.addEventListener("click", () => {
-      openDeleteModal(id);
-    });
-    editTag.addEventListener("click", () => {
-      editClickedCarElement(id);
-    });
-    deleteBtnContainer.appendChild(iTag);
-    deleteBtnContainer.appendChild(editTag);
   }
 
   draggables.forEach(draggable => {
