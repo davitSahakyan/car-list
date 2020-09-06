@@ -77,7 +77,7 @@ const validation = () => {
     if (inputsAreValid) {
         let loginInput = inputs.find((input) => input.name === "login");
         if (users.length) {
-            canCreateUser = !!(users.find(user => user.login === loginInput.value && loginInput.name === "login"));
+            canCreateUser = !(users.find(user => user.login === loginInput.value && loginInput.name === "login"));
         } else {
             canCreateUser = true;
         }
@@ -93,8 +93,8 @@ const validation = () => {
         );
         users.push(formData);
         localStorage.setItem("users", JSON.stringify(users));
-        alert("you have successfully registered");
-        window.location = "./src/modules/home/home.html";
+        // alert("you have successfully registered");
+        // window.location = "./src/modules/home/home.html";
     }
 };
 
