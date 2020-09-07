@@ -208,3 +208,7 @@ body {
 .red {
   color: red;
 }
+#noItems {
+  display: none;
+  color: red;
+}

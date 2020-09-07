@@ -87,7 +87,6 @@ const validation = () => {
         addErrorSpan(loginInput, LOGIN_USER_EXISTS_TEXT);
     }
     if (canCreateUser) {
-        console.log("inputsAreValid", inputsAreValid);
         const formData = Object.fromEntries(
             new FormData(document.getElementById("form")).entries()
         );

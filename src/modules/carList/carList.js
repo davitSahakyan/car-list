@@ -1,5 +1,9 @@
+import { eng } from "../langData/eng.js";
+import { rus } from "../langData/rus.js";
+import { arm } from "../langData/arm.js";
 import { carData } from "../data.js";
 import * as utils from "../utils.js";
+import * as services from "../services.js";
 
 const DATA_WITH_ID = carData.map(item => {
   return { ...item, id: utils.randomIdGenerator() };
@@ -14,17 +18,21 @@ const listElements = Array.from(document.getElementsByClassName("listElement"));
 const deleteBtnContainer = document.getElementById("deleteButtonContainer");
 const modalElement = document.getElementById("modalElement");
 const draggables = Array.from(document.getElementsByClassName("draggable"));
+const serchInput = document.getElementById("serchInput");
+const searchButton = document.getElementById("searchButton");
+
 
 
 let currentPage = 1;
 const itemsPerPage = 10;
 let pagesCount = Math.ceil(data.length / itemsPerPage);
+console.log(pagesCount);
 
 // Creates modal deletes choosen element and saves new array in local storage
 
 const openDeleteModal = (id) => {
   modalElement.innerHTML = "";
-  utils.createModal(modalElement);
+  utils.createModal(modalElement, services.languageObject(eng, rus, arm));
   const modal = document.getElementById("myModal");
   modal.style.display = "block";
 
@@ -45,9 +53,14 @@ const openDeleteModal = (id) => {
     modal.style.display = "none";
     localStorage.setItem("data", JSON.stringify(data));
     let buttonColections = Array.from(document.getElementsByClassName("btn"));
-    if (data.length % itemsPerPage === 0 && currentPage === buttonColections.length) currentPage = currentPage - 1;
+    if (data.length % itemsPerPage === 0 && currentPage === buttonColections.length) {
+      currentPage = currentPage - 1;
+      pagesCount = pagesCount - 1;
+    }
+    console.log("currentPage", currentPage)
+    console.log("pages count", pagesCount)
     showList(data, list, itemsPerPage, currentPage);
-    showPagination(data, pagination, itemsPerPage);
+    showPagination(pagination, itemsPerPage);
   });
 };
 // EDIT CLICKED ELEMENT ////////////////////////////////////////////////////////////
@@ -66,7 +79,6 @@ const showList = (items, wrapper, itemsPerPage, page) => {
   let paginationItems = items.slice(startItem, endItem);
   // For each element in car list they are 7
   for (let element = 0; element < listElements.length; element++) {
-    console.log("listElements", listElements)
     const span = document.createElement("span");
     // if element is button container
     if (listElements[element].id !== "deleteButtonContainer") {
@@ -159,7 +171,7 @@ const singlePaginationButton = (page) => {
 
   button.addEventListener("click", () => {
     currentPage = page;
-    showList(data, list, itemsPerPage, currentPage);
+    showList(filteredData, list, itemsPerPage, currentPage);
 
     const buttonColection = document.getElementsByClassName("active")[0];
     buttonColection.classList.remove("active");
@@ -170,8 +182,8 @@ const singlePaginationButton = (page) => {
   return button;
 };
 // creates pagination using  singlePaginationButton
-const showPagination = wrapper => {
-  wrapper.innerHTML = "";
+const showPagination = (pagesCount) => {
+  pagination.innerHTML = "";
   pagination.innerHTML = "";
   pagesCount = Math.ceil(data.length / itemsPerPage);
 
@@ -187,10 +199,10 @@ const nextAndPrev = () => {
     item.addEventListener("click", (e) => {
       if (e.currentTarget.id === "INCREMENT" && currentPage < pagesCount) {
         currentPage = currentPage + 1;
-        showList(data, list, itemsPerPage, currentPage);
+        showList(filteredData, list, itemsPerPage, currentPage);
       } else if (e.currentTarget.id === "DECREMENT" && currentPage > 1) {
         currentPage = currentPage - 1;
-        showList(data, list, itemsPerPage, currentPage);
+        showList(filteredData, list, itemsPerPage, currentPage);
       }
 
       let buttonColections = Array.from(document.getElementsByClassName("btn"));
@@ -207,6 +219,27 @@ const nextAndPrev = () => {
 };
 nextAndPrev();
 
+let filteredData = [...data];
+searchButton.addEventListener("click", () => {
+  let newFiteredData = data.filter((item) => {
+    for (let key in item) {
+      if (item[key]
+        .toLowerCase()
+        .match(serchInput
+          .value
+          .toLowerCase())) {
+        return true;
+      }
+    }
+  });
+
+  console.log("newFiteredData", newFiteredData);
+  pagesCount = Math.ceil(newFiteredData.length / itemsPerPage);
+  filteredData = [...newFiteredData];
+  showList(newFiteredData, list, itemsPerPage, currentPage);
+  showPagination(pagesCount, newFiteredData);
+});
+
 
 showList(data, list, itemsPerPage, currentPage);
-showPagination(data, pagination, itemsPerPage);
+showPagination(pagesCount);

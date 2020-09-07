@@ -1,12 +1,12 @@
-export const createModal = (modalElement) => {
+export const createModal = (modalElement, languageObject) => {
   const modalContainer = document.createElement("div");
   const modalContent = document.createElement("div");
   const textContainer = document.createElement("p");
   const deleteButton = document.createElement("button");
   const cancelButton = document.createElement("button");
-  textContainer.textContent = "Are you sure you want to delete?";
-  deleteButton.textContent = "Delete";
-  cancelButton.textContent = "Cancel";
+  textContainer.textContent = `${languageObject.deleteQuestion}`;
+  deleteButton.textContent = languageObject.delete;
+  cancelButton.textContent = languageObject.cancel;
 
   modalContainer.classList = "modal";
   modalContainer.id = "myModal";
