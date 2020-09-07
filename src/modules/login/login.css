@@ -31,3 +31,9 @@
     outline: none;
     font-size: 20px;
 }
+.eng {
+    background-image: url(./img/eng.png) ;
+    background-repeat: no-repeat;
+    background-size: cover;
+    color: tomato;
+}

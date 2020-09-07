@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="login.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="./login.js" defer></script>
     <title>Login</title>
 </head>
@@ -14,6 +16,12 @@
         <h1>Log in</h1>
         <div class="loginContainer">
             <form class="form" method="GET" name="form" id="loginForm">
+                <label for="language">Choose a language:</label>
+                <select id="language">
+                    <option value="eng">English (US)</option>
+                    <option value="rus">Русский</option>
+                    <option value="arm">Հայերեն</option>
+                </select>
                 <div class="form-group">
                     <label class="title">login</label>
                     <input type="text" class="form-control" name="login">

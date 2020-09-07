@@ -59,6 +59,10 @@ const verifyUser = () => {
                 user.password === formData.password
         );
         if (foundRegistredUser) {
+            users.forEach(user => user.isLogged = false);
+            foundRegistredUser.language = document.getElementById("language").value;
+            foundRegistredUser.isLogged = true;
+            localStorage.setItem("users", JSON.stringify(users));
             window.location = "../home/home.html";
         } else {
             inputs.forEach(

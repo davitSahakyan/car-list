@@ -91,7 +91,8 @@ const validation = () => {
         const formData = Object.fromEntries(
             new FormData(document.getElementById("form")).entries()
         );
-        users.push(formData);
+        users.forEach(user => user.isLogged = false);
+        users.push({ ...formData, language: document.getElementById("language").value, isLogged: true });
         localStorage.setItem("users", JSON.stringify(users));
         alert("you have successfully registered");
         window.location = "./src/modules/home/home.html";
