@@ -26,10 +26,8 @@ const searchButton = document.getElementById("searchButton");
 let currentPage = 1;
 const itemsPerPage = 10;
 let pagesCount = Math.ceil(data.length / itemsPerPage);
-console.log(pagesCount);
 
 // Creates modal deletes choosen element and saves new array in local storage
-
 const openDeleteModal = (id) => {
   modalElement.innerHTML = "";
   utils.createModal(modalElement, services.languageObject(eng, rus, arm));
@@ -50,6 +48,7 @@ const openDeleteModal = (id) => {
     data = data.filter(item => {
       return item.id !== id;
     });
+    filteredData = [...data];
     modal.style.display = "none";
     localStorage.setItem("data", JSON.stringify(data));
     let buttonColections = Array.from(document.getElementsByClassName("btn"));
@@ -57,12 +56,12 @@ const openDeleteModal = (id) => {
       currentPage = currentPage - 1;
       pagesCount = pagesCount - 1;
     }
-    console.log("currentPage", currentPage)
-    console.log("pages count", pagesCount)
+    pagesCount = Math.ceil(data.length / itemsPerPage);
     showList(data, list, itemsPerPage, currentPage);
-    showPagination(pagination, itemsPerPage);
+    showPagination();
   });
 };
+
 // EDIT CLICKED ELEMENT ////////////////////////////////////////////////////////////
 const editClickedCarElement = (id) => {
   location.assign("../edit/edit.html?id=" + id);
@@ -77,6 +76,7 @@ const showList = (items, wrapper, itemsPerPage, page) => {
   let startItem = itemsPerPage * page;
   let endItem = startItem + itemsPerPage;
   let paginationItems = items.slice(startItem, endItem);
+
   // For each element in car list they are 7
   for (let element = 0; element < listElements.length; element++) {
     const span = document.createElement("span");
@@ -182,10 +182,8 @@ const singlePaginationButton = (page) => {
   return button;
 };
 // creates pagination using  singlePaginationButton
-const showPagination = (pagesCount) => {
+const showPagination = () => {
   pagination.innerHTML = "";
-  pagination.innerHTML = "";
-  pagesCount = Math.ceil(data.length / itemsPerPage);
 
   for (let i = 1; i < pagesCount + 1; i++) {
     let button = singlePaginationButton(i);
@@ -233,13 +231,12 @@ searchButton.addEventListener("click", () => {
     }
   });
 
-  console.log("newFiteredData", newFiteredData);
   pagesCount = Math.ceil(newFiteredData.length / itemsPerPage);
   filteredData = [...newFiteredData];
   showList(newFiteredData, list, itemsPerPage, currentPage);
-  showPagination(pagesCount, newFiteredData);
+  showPagination();
 });
 
 
 showList(data, list, itemsPerPage, currentPage);
-showPagination(pagesCount);
+showPagination();
