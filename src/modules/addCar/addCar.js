@@ -1,16 +1,13 @@
 import { carData } from "../data.js";
 import * as utils from "../utils.js";
-import { eng } from "../langData/eng.js";
-import { rus } from "../langData/rus.js";
-import { arm } from "../langData/arm.js";
 import * as services from "../services.js";
 
-const lang = services.languageObject(eng, rus, arm);
-
-const changeLanguage = (lang) => {
+// Language part
+function changeLanguage(lang) {
     document.getElementById("submitButton").textContent = `${lang.create}`;
-};
-changeLanguage(lang);
+}
+services.languageObject().then(res => changeLanguage(res));
+// Language part
 
 const DATA_WITH_ID = carData.map(item => {
     return { ...item, id: utils.randomIdGenerator() };

@@ -5,5 +5,6 @@ export const eng = {
     "delete": "delete",
     "cancel": "cancel",
     "edit": "edit",
-    "create": "create"
+    "create": "create",
+    "search": "search"
 };

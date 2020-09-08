@@ -37,3 +37,6 @@
     background-size: cover;
     color: tomato;
 }
+.errorSpan {
+    color : red;
+}

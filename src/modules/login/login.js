@@ -1,3 +1,7 @@
+const LOGIN_FILL_UP_ERROR_TEXT = "Login must be more than 5 simbols";
+const PASSWORD_FILL_UP_TEXT = "Please fill up your password";
+const LOGIN_USER_NOT_EXIST_ERROR_TEXT = "User with this login does not exist";
+
 const inputs = Array.from(document.getElementsByClassName("form-control"));
 
 const loginForm = document.getElementById("loginForm");
@@ -6,32 +10,43 @@ const removeSpace = (string) => string.replace(/\s+/, "");
 
 let users = JSON.parse(localStorage.getItem("users")) || [];
 
-const removeClass = (element) => {
-    element.parentElement.classList.remove("hasError");
+function removeClass(element) {
+    const errorSpans = element.parentElement.getElementsByClassName("errorSpan");
+    if (errorSpans) {
+        Array.from(errorSpans).forEach(item => item.remove());
+    }
     return true;
-};
+}
 
-const addErrorSpan = (element, spanContent) => {
+
+function addErrorSpan(element, spanContent) {
     const errorSpan = document.createElement("span");
     errorSpan.classList = "errorSpan";
     errorSpan.textContent = spanContent;
     element.parentElement.appendChild(errorSpan);
-};
+}
 
-const addErrorClass = (inputs) => {
+function addErrorClass(inputs) {
     let inputsAreValid = true;
+    if (document.getElementsByClassName("errorSpan")) {
+        Array.from(document.getElementsByClassName("errorSpan")).forEach(item => item.remove());
+    }
     inputs.forEach((input) => {
         if (input.name === "login" && input.value.length < 6) {
-            addErrorSpan(input);
+            addErrorSpan(input, LOGIN_FILL_UP_ERROR_TEXT);
+            inputsAreValid = false;
+        }
+        if (input.name === "login" && input.value.length >= 6 && !users.find(user => user.login === input.login)) {
+            addErrorSpan(input, LOGIN_USER_NOT_EXIST_ERROR_TEXT);
             inputsAreValid = false;
         }
         if (input.name === "password" && input.value.length < 6) {
-            addErrorSpan(input);
+            addErrorSpan(input, PASSWORD_FILL_UP_TEXT);
             inputsAreValid = false;
         }
     });
     return inputsAreValid;
-};
+}
 
 inputs.forEach((input) => {
     input.addEventListener("textInput", () => {
@@ -46,9 +61,10 @@ inputs.forEach((input) => {
 });
 
 
-const verifyUser = () => {
+function verifyUser() {
     let inputsAreValid;
     inputsAreValid = addErrorClass(inputs);
+    console.log("inputs", inputs);
     if (inputsAreValid) {
         const formData = Object.fromEntries(
             new FormData(document.getElementById("loginForm")).entries()
@@ -71,7 +87,7 @@ const verifyUser = () => {
             );
         }
     }
-};
+}
 
 loginForm.addEventListener("submit", (e) => {
     verifyUser();

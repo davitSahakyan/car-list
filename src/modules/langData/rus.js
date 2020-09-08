@@ -5,5 +5,6 @@ export const rus = {
     "delete": "удалить",
     "cancel": "отменить",
     "edit": "изменить",
-    "create": "создать"
+    "create": "создать",
+    "search": "поиск"
 };

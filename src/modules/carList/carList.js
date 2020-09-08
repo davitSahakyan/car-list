@@ -1,9 +1,8 @@
-import { eng } from "../langData/eng.js";
-import { rus } from "../langData/rus.js";
-import { arm } from "../langData/arm.js";
 import { carData } from "../data.js";
 import * as utils from "../utils.js";
 import * as services from "../services.js";
+
+
 
 const DATA_WITH_ID = carData.map(item => {
   return { ...item, id: utils.randomIdGenerator() };
@@ -21,16 +20,18 @@ const draggables = Array.from(document.getElementsByClassName("draggable"));
 const serchInput = document.getElementById("serchInput");
 const searchButton = document.getElementById("searchButton");
 
-
+services.languageObject().then(res => {
+  searchButton.textContent = `${res.search}`;
+});
 
 let currentPage = 1;
 const itemsPerPage = 10;
 let pagesCount = Math.ceil(data.length / itemsPerPage);
 
 // Creates modal deletes choosen element and saves new array in local storage
-const openDeleteModal = (id) => {
+function openDeleteModal(id) {
   modalElement.innerHTML = "";
-  utils.createModal(modalElement, services.languageObject(eng, rus, arm));
+  utils.createModal(modalElement, services.languageObject());
   const modal = document.getElementById("myModal");
   modal.style.display = "block";
 
@@ -60,15 +61,15 @@ const openDeleteModal = (id) => {
     showList(data, list, itemsPerPage, currentPage);
     showPagination();
   });
-};
+}
 
 // EDIT CLICKED ELEMENT ////////////////////////////////////////////////////////////
-const editClickedCarElement = (id) => {
+function editClickedCarElement(id) {
   location.assign("../edit/edit.html?id=" + id);
-};
+}
 
 // Showlist starts here
-const showList = (items, wrapper, itemsPerPage, page) => {
+function showList(items, wrapper, itemsPerPage, page) {
   listElements.forEach(element => element.innerHTML = "");
   deleteBtnContainer.innerHTML = "";
   page--;
@@ -145,7 +146,7 @@ const showList = (items, wrapper, itemsPerPage, page) => {
     const afterEl = afterElement == null ? actions[0] : afterElement;
     list.insertBefore(draggable, afterEl);
   });
-};
+}
 
 // gets drag after element
 function getDragAfterElement(list, x) {
@@ -163,7 +164,7 @@ function getDragAfterElement(list, x) {
 }
 
 //  creates single pagination button and recives event click
-const singlePaginationButton = (page) => {
+function singlePaginationButton(page) {
   let button = document.createElement("button");
   button.textContent = page;
   button.classList.add("btn");
@@ -180,19 +181,18 @@ const singlePaginationButton = (page) => {
   });
 
   return button;
-};
+}
 // creates pagination using  singlePaginationButton
-const showPagination = () => {
+function showPagination() {
   pagination.innerHTML = "";
 
   for (let i = 1; i < pagesCount + 1; i++) {
     let button = singlePaginationButton(i);
     pagination.appendChild(button);
   }
-
-};
+}
 // next and prev page buttons 
-const nextAndPrev = () => {
+function nextAndPrev() {
   pageChangeButtons.forEach(item => {
     item.addEventListener("click", (e) => {
       if (e.currentTarget.id === "INCREMENT" && currentPage < pagesCount) {
@@ -214,7 +214,7 @@ const nextAndPrev = () => {
 
     });
   });
-};
+}
 nextAndPrev();
 
 let filteredData = [...data];

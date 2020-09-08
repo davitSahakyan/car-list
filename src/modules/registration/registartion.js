@@ -12,21 +12,21 @@ const removeSpace = (string) => string.replace(/\s+/, "");
 
 let users = JSON.parse(localStorage.getItem("users")) || [];
 
-const removeClass = (element) => {
+function removeClass(element) {
     const errorSpans = element.parentElement.getElementsByClassName("errorSpan");
     if (errorSpans) {
         Array.from(errorSpans).forEach(item => item.remove());
     }
     return true;
-};
-const addErrorSpan = (element, spanContent) => {
+}
+function addErrorSpan(element, spanContent) {
     const errorSpan = document.createElement("span");
     errorSpan.classList = "errorSpan";
     errorSpan.textContent = spanContent;
     element.parentElement.appendChild(errorSpan);
-};
+}
 
-const addErrorClass = (inputs) => {
+function addErrorClass(inputs) {
     let inputsAreValid = true;
     if (document.getElementsByClassName("errorSpan")) {
         Array.from(document.getElementsByClassName("errorSpan")).forEach(item => item.remove());
@@ -50,7 +50,7 @@ const addErrorClass = (inputs) => {
         }
     });
     return inputsAreValid;
-};
+}
 
 inputs.forEach((input) => {
     input.addEventListener("textInput", () => {
@@ -70,7 +70,7 @@ inputs.forEach((input) => {
     });
 });
 
-const validation = () => {
+function validation() {
     let canCreateUser = false;
     let inputsAreValid;
     inputsAreValid = addErrorClass(inputs);
@@ -96,8 +96,7 @@ const validation = () => {
         alert("you have successfully registered");
         window.location = "./src/modules/home/home.html";
     }
-};
-
+}
 
 form.addEventListener("submit", (e) => {
     validation();

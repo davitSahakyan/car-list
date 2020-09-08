@@ -1,17 +1,13 @@
 import * as utils from "../utils.js";
-import { eng } from "../langData/eng.js";
-import { rus } from "../langData/rus.js";
-import { arm } from "../langData/arm.js";
 import * as services from "../services.js";
 
 const carEditButton = document.getElementById("editButton");
-
-const lang = services.languageObject(eng, rus, arm);
-
-const changeLanguage = (lang) => {
+// Language part
+function changeLanguage(lang) {
     carEditButton.textContent = `${lang.edit}`;
-};
-changeLanguage(lang);
+}
+services.languageObject().then(res => changeLanguage(res));
+// Language part end
 
 const id = window.location.search.split("=")[1];
 const localStorageData = JSON.parse(localStorage.getItem("data"));
@@ -23,7 +19,7 @@ inputs.forEach((input, index) => {
     input.value = Object.values(car)[index];
 });
 
-const editButton = () => {
+function editButton() {
     let inputsAreValid = utils.addErrorClass(inputs);
     if (inputsAreValid) {
         const formData = Object.fromEntries(
@@ -40,7 +36,7 @@ const editButton = () => {
         location.assign("../carList/carList.html");
     }
 
-};
+}
 carEditButton.addEventListener("click", (e) => {
     editButton();
     e.preventDefault();

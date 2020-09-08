@@ -5,5 +5,6 @@ export const arm = {
     "delete": "ջնջել",
     "cancel": "ոչ",
     "edit": "փոփոխել",
-    "create": "ստեղծել"
+    "create": "ստեղծել",
+    "search": "փնտրել"
 };
