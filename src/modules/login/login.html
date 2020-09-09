@@ -9,6 +9,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="./login.js" defer></script>
     <title>Login</title>
+    <meta name="google-signin-client_id"
+        content="421071511650-ol6ls71okd6qdhgf2gb83l2h6uq992qs.apps.googleusercontent.com">
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
 </head>
 
 <body>
@@ -35,6 +38,11 @@
                     <a href="../../../index.html">Registrate</a>
                 </span>
             </form>
+        </div>
+        <div>
+            <h2>Google Auth</h2>
+            <div class="g-signin2" data-onsuccess="onSignIn">
+            </div>
         </div>
     </div>
 </body>

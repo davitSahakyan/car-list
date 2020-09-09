@@ -2,6 +2,8 @@ const LOGIN_FILL_UP_ERROR_TEXT = "Login must be more than 5 simbols";
 const PASSWORD_FILL_UP_TEXT = "Please fill up your password";
 const LOGIN_USER_NOT_EXIST_ERROR_TEXT = "User with this login does not exist";
 
+const signOut = document.getElementById("signOut");
+
 const inputs = Array.from(document.getElementsByClassName("form-control"));
 
 const loginForm = document.getElementById("loginForm");
@@ -64,7 +66,6 @@ inputs.forEach((input) => {
 function verifyUser() {
     let inputsAreValid;
     inputsAreValid = addErrorClass(inputs);
-    console.log("inputs", inputs);
     if (inputsAreValid) {
         const formData = Object.fromEntries(
             new FormData(document.getElementById("loginForm")).entries()
@@ -87,6 +88,17 @@ function verifyUser() {
             );
         }
     }
+}
+function onSignIn(googleUser) {
+    users.forEach(user => user.isLogged = false);
+
+    const name = googleUser.getBasicProfile().getGivenName();
+    const lastname = googleUser.getBasicProfile().getFamilyName();
+    const login = googleUser.getBasicProfile().getEmail();
+    const password = googleUser.getBasicProfile().getId();
+    users.push({ name, lastname, login, password, language: document.getElementById("language").value, isLogged: true });
+    localStorage.setItem("users", JSON.stringify(users));
+    window.location = "../home/home.html";
 }
 
 loginForm.addEventListener("submit", (e) => {
