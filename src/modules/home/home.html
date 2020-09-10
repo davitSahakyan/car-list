@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="home.css">
     <script type="module" src="./home.js" defer></script>
     <title>Home page</title>
     <meta name="google-signin-client_id"
@@ -13,11 +14,16 @@
 </head>
 
 <body>
-    <div class="container">
-        <a id="carListLink" type="button" href="../carList/carList.html"></a>
-        <a id="addCarLink" type="button" href="../addCar/addCar.html"></a>
+    <div>
+        <div id="userInfoBlock" class="userInfoBlock"></div>
+        <div>
+            <div class="container">
+                <button class="home-btn" id="carListBtn"></button>
+                <button class="home-btn" id="addCarBtn"></button>
+            </div>
+            <button id="signOut">Sign Out</button>
+        </div>
     </div>
-    <button id="signOut">Sign Out</button>
 </body>
 
 

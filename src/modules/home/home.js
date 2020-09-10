@@ -1,11 +1,23 @@
 import * as services from "../services.js";
 
+
+const users = JSON.parse(localStorage.getItem("users"));
+const locale = users.find(user => user.isLogged === true);
 const signOut = document.getElementById("signOut");
+const carListBtn = document.getElementById("carListBtn");
+const addCarBtn = document.getElementById("addCarBtn");
+
 
 const changeLanguage = (lang) => {
-    document.getElementById("carListLink").textContent = lang.carList;
-    document.getElementById("addCarLink").textContent = lang.addCar;
+    carListBtn.textContent = lang.carList;
+    addCarBtn.textContent = lang.addCar;
 };
+addCarBtn.addEventListener("click", () => {
+    location.assign("../addCar/addCar.html");
+});
+carListBtn.addEventListener("click", () => {
+    location.assign("../carList/carList.html");
+});
 
 services.languageObject().then(res => changeLanguage(res));
 
@@ -19,3 +31,25 @@ signOut.addEventListener("click", function signOut() {
         window.location = "../login/login.html";
     });
 });
+
+function createUserInfoBlock() {
+    if (locale) {
+        console.log(locale);
+        const userInfoBlock = document.getElementById("userInfoBlock");
+        const wrapper = document.createElement("div");
+        if (locale.img) {
+            const img = document.createElement("img");
+            img.src = locale.img;
+            wrapper.appendChild(img);
+        }
+        const email = document.createElement("span");
+
+        wrapper.classList.add("userInfoWrraper");
+        email.textContent = `${locale.login}`;
+
+        wrapper.appendChild(email);
+        userInfoBlock.appendChild(wrapper);
+    }
+}
+createUserInfoBlock();
+
