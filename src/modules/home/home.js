@@ -1,8 +1,6 @@
 import * as services from "../services.js";
 
-
-const users = JSON.parse(localStorage.getItem("users"));
-const locale = users.find(user => user.isLogged === true);
+const locale = JSON.parse(localStorage.getItem("currentUser"));
 const signOut = document.getElementById("signOut");
 const carListBtn = document.getElementById("carListBtn");
 const addCarBtn = document.getElementById("addCarBtn");
@@ -26,6 +24,7 @@ gapi.load("auth2", function () {
 });
 
 signOut.addEventListener("click", function signOut() {
+    localStorage.removeItem("currentUser");
     var auth2 = gapi.auth2.getAuthInstance();
     auth2.signOut().then(function () {
         window.location = "../login/login.html";
@@ -37,7 +36,7 @@ function createUserInfoBlock() {
         console.log(locale);
         const userInfoBlock = document.getElementById("userInfoBlock");
         const wrapper = document.createElement("div");
-        if (locale.img) {
+        if (locale.type === "facebook" || locale.type === "google") {
             const img = document.createElement("img");
             img.src = locale.img;
             wrapper.appendChild(img);

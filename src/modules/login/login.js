@@ -39,7 +39,7 @@ function addErrorClass(inputs) {
             addErrorSpan(input, LOGIN_FILL_UP_ERROR_TEXT);
             inputsAreValid = false;
         }
-        if (input.name === "login" && input.value.length >= 6 && !users.find(user => user.login === input.login)) {
+        if (input.name === "login" && input.value.length >= 6 && !users.find(user => user.login === input.value)) {
             addErrorSpan(input, LOGIN_USER_NOT_EXIST_ERROR_TEXT);
             inputsAreValid = false;
         }
@@ -74,13 +74,15 @@ function verifyUser() {
         let foundRegistredUser = users.find(
             (user) =>
                 user.login === formData.login &&
-                user.password === formData.password
+                user.password === formData.password &&
+                user.type === "custom"
         );
+        console.log(foundRegistredUser)
         if (foundRegistredUser) {
-            users.forEach(user => user.isLogged = false);
             foundRegistredUser.language = document.getElementById("language").value;
             foundRegistredUser.isLogged = true;
             localStorage.setItem("users", JSON.stringify(users));
+            localStorage.setItem("currentUser", JSON.stringify(foundRegistredUser));
             window.location = "../home/home.html";
         } else {
             inputs.forEach(
@@ -91,8 +93,6 @@ function verifyUser() {
     }
 }
 function onSignIn(googleUser) {
-    users.forEach(user => user.isLogged = false);
-
     const name = googleUser.getBasicProfile().getGivenName();
     const lastname = googleUser.getBasicProfile().getFamilyName();
     const login = googleUser.getBasicProfile().getEmail();
@@ -101,9 +101,11 @@ function onSignIn(googleUser) {
     const foundRegistredUser = users.find(user => user.login === login);
     if (foundRegistredUser) {
         foundRegistredUser.language = document.getElementById("language").value;
-        foundRegistredUser.isLogged = true;
+        localStorage.setItem("currentUser", JSON.stringify(foundRegistredUser));
     } else {
-        users.push({ img, name, lastname, login, password, language: document.getElementById("language").value, isLogged: true });
+        const newUser = { img, name, lastname, login, password, language: document.getElementById("language").value, type: "google" };
+        users = [...users, newUser];
+        localStorage.setItem("currentUser", JSON.stringify(newUser));
     }
     localStorage.setItem("users", JSON.stringify(users));
     window.location = "../home/home.html";

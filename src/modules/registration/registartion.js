@@ -90,9 +90,9 @@ function validation() {
         const formData = Object.fromEntries(
             new FormData(document.getElementById("form")).entries()
         );
-        users.forEach(user => user.isLogged = false);
-        users.push({ ...formData, language: document.getElementById("language").value, isLogged: true });
+        users.push({ ...formData, language: document.getElementById("language").value, type: "custom" });
         localStorage.setItem("users", JSON.stringify(users));
+        localStorage.setItem("currentUser", JSON.stringify({ ...formData, language: document.getElementById("language").value, type: "custom" }));
         alert("you have successfully registered");
         window.location = "./src/modules/home/home.html";
     }

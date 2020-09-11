@@ -1,4 +1,3 @@
-
 function statusChangeCallback(response) {
     FB.getAuthResponse();
     if (response.status === "connected") {
@@ -15,9 +14,11 @@ function statusChangeCallback(response) {
             const foundRegistredUser = users.find(user => user.login === login);
             if (foundRegistredUser) {
                 foundRegistredUser.language = document.getElementById("language").value;
-                foundRegistredUser.isLogged = true;
+                localStorage.setItem("currentUser", JSON.stringify(foundRegistredUser));
             } else {
-                users.push({ img, name, lastname, login, password, language: document.getElementById("language").value, isLogged: true });
+                const newUser = { img, name, lastname, login, password, language: document.getElementById("language").value, type: "facebook" };
+                users = [...users, newUser];
+                localStorage.setItem("currentUser", JSON.stringify(newUser));
             }
             localStorage.setItem("users", JSON.stringify(users));
         });
@@ -51,8 +52,6 @@ function testAPI() {
             "Thanks for logging in, " + response.name + "!";
     });
 }
-
-
 
 
 
