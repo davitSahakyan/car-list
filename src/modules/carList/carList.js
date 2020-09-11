@@ -49,8 +49,12 @@ function openDeleteModal(id) {
   };
   deleteButton.addEventListener("click", () => {
     data = data.filter((item) => {
+      console.log("item.id", item.id);
+      console.log("id", id);
+      console.log(item.id !== id);
       return item.id !== id;
     });
+    console.log("data", data);
     filteredData = [...data];
     modal.style.display = "none";
     localStorage.setItem("data", JSON.stringify(data));
@@ -206,10 +210,10 @@ function nextAndPrev() {
   pageChangeButtons.forEach((item) => {
     item.addEventListener("click", (e) => {
       if (e.currentTarget.id === "INCREMENT" && currentPage < pagesCount) {
-        currentPage = currentPage + 1;
+        currentPage++;
         showList(filteredData, list, itemsPerPage, currentPage);
       } else if (e.currentTarget.id === "DECREMENT" && currentPage > 1) {
-        currentPage = currentPage - 1;
+        currentPage--;
         showList(filteredData, list, itemsPerPage, currentPage);
       }
 

@@ -2,75 +2,72 @@ const LOGIN_FILL_UP_ERROR_TEXT = "Login must be more than 5 simbols";
 const PASSWORD_FILL_UP_TEXT = "Please fill up your password";
 const LOGIN_USER_NOT_EXIST_ERROR_TEXT = "User with this login does not exist";
 
-const signOut = document.getElementById("signOut");
-
 const inputs = Array.from(document.getElementsByClassName("form-control"));
 
 const loginForm = document.getElementById("loginForm");
 
-const removeSpace = (string) => string.replace(/\s+/, "");
-
 let users = JSON.parse(localStorage.getItem("users")) || [];
+
+function removeErrorSpans(spans) {
+  Array.from(spans).forEach((item) => item.remove());
+}
 
 function removeClass(element) {
   const errorSpans = element.parentElement.getElementsByClassName("errorSpan");
   if (errorSpans) {
-    Array.from(errorSpans).forEach((item) => item.remove());
+    removeErrorSpans(errorSpans);
   }
   return true;
 }
 
-function addErrorSpan(element, spanContent) {
+function addValidationError(element, errorContent) {
   const errorSpan = document.createElement("span");
   errorSpan.classList = "errorSpan";
-  errorSpan.textContent = spanContent;
+  errorSpan.textContent = errorContent;
   element.parentElement.appendChild(errorSpan);
 }
 
-function addErrorClass(inputs) {
-  let inputsAreValid = true;
+function checkValidation(inputs) {
+  let isValid = true;
   if (document.getElementsByClassName("errorSpan")) {
-    Array.from(document.getElementsByClassName("errorSpan")).forEach((item) =>
-      item.remove()
-    );
+    removeErrorSpans(document.getElementsByClassName("errorSpan"));
   }
   inputs.forEach((input) => {
     if (input.name === "login" && input.value.length < 6) {
-      addErrorSpan(input, LOGIN_FILL_UP_ERROR_TEXT);
-      inputsAreValid = false;
+      addValidationError(input, LOGIN_FILL_UP_ERROR_TEXT);
+      isValid = false;
     }
     if (
       input.name === "login" &&
       input.value.length >= 6 &&
       !users.find((user) => user.login === input.value)
     ) {
-      addErrorSpan(input, LOGIN_USER_NOT_EXIST_ERROR_TEXT);
-      inputsAreValid = false;
+      addValidationError(input, LOGIN_USER_NOT_EXIST_ERROR_TEXT);
+      isValid = false;
     }
     if (input.name === "password" && input.value.length < 6) {
-      addErrorSpan(input, PASSWORD_FILL_UP_TEXT);
-      inputsAreValid = false;
+      addValidationError(input, PASSWORD_FILL_UP_TEXT);
+      isValid = false;
     }
   });
-  return inputsAreValid;
+  return isValid;
 }
 
 inputs.forEach((input) => {
   input.addEventListener("textInput", () => {
-    let WithoutFirstSpace = removeSpace(input.value);
-    if (input.name === "login" && WithoutFirstSpace.length >= 6) {
+    if (input.name === "login" && input.value >= 6) {
       return removeClass(input);
     }
-    if (input.name === "password" && WithoutFirstSpace.length >= 6) {
+    if (input.name === "password" && input.value >= 6) {
       return removeClass(input);
     }
   });
 });
 
 function verifyUser() {
-  let inputsAreValid;
-  inputsAreValid = addErrorClass(inputs);
-  if (inputsAreValid) {
+  let isValid;
+  isValid = checkValidation(inputs);
+  if (isValid) {
     const formData = Object.fromEntries(
       new FormData(document.getElementById("loginForm")).entries()
     );
@@ -80,7 +77,6 @@ function verifyUser() {
         user.password === formData.password &&
         user.type === "custom"
     );
-    console.log(foundRegistredUser);
     if (foundRegistredUser) {
       foundRegistredUser.language = document.getElementById("language").value;
       foundRegistredUser.isLogged = true;

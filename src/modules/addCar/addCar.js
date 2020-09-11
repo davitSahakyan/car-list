@@ -24,6 +24,7 @@ class Car {
     this.Model = formDataWithId.Model;
     this.Transmission = formDataWithId.Transmission;
     this.Horsepower = formDataWithId.Horsepower;
+    this.id = formDataWithId.id;
   }
 }
 
