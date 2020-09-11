@@ -1,58 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="login.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="login.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
     <script src="./login.js" defer></script>
     <script src="./loginFb.js" defer></script>
     <title>Login</title>
-    <meta name="google-signin-client_id"
-        content="421071511650-ol6ls71okd6qdhgf2gb83l2h6uq992qs.apps.googleusercontent.com">
+    <meta
+      name="google-signin-client_id"
+      content="421071511650-ol6ls71okd6qdhgf2gb83l2h6uq992qs.apps.googleusercontent.com"
+    />
     <script src="https://apis.google.com/js/platform.js" async defer></script>
-</head>
+  </head>
 
-<body>
-
-    <script async defer crossorigin="anonymous"
-        src="https://connect.facebook.net/ru_RU/sdk.js#xfbml=1&version=v8.0&appId=723009974920333&autoLogAppEvents=1"
-        nonce="ntjH01dv"></script>
+  <body>
+    <script
+      async
+      defer
+      crossorigin="anonymous"
+      src="https://connect.facebook.net/ru_RU/sdk.js#xfbml=1&version=v8.0&appId=723009974920333&autoLogAppEvents=1"
+      nonce="ntjH01dv"
+    ></script>
     <div class="container">
-        <h1>Log in</h1>
-        <div class="loginContainer">
-            <form class="form" method="GET" name="form" id="loginForm">
-                <label for="language">Choose a language:</label>
-                <select id="language">
-                    <option value="eng">English (US)</option>
-                    <option value="rus">Русский</option>
-                    <option value="arm">Հայերեն</option>
-                </select>
-                <div class="form-group">
-                    <label class="title">login</label>
-                    <input type="text" class="form-control" name="login">
-                </div>
-                <div class="form-group">
-                    <label class="title">password</label>
-                    <input type="password" class="form-control" name="password">
-                </div>
-                <button type="submit" id="loginButton">Log in</button>
-                <span>if you have not account
-                    <a href="../../../index.html">Registrate</a>
-                </span>
-            </form>
-        </div>
-        <div>
-            <h2>Google Auth</h2>
-            <div class="g-signin2" data-onsuccess="onSignIn">
-            </div>
-        </div>
-        <div class="fb-login-button" data-size="large" data-button-type="login_with" data-layout="default"
-            data-auto-logout-link="true" data-use-continue-as="true" data-width="" onlogin="checkLoginState()"></div>
+      <h1>Log in</h1>
+      <div class="loginContainer">
+        <form class="form" method="GET" name="form" id="loginForm">
+          <label for="language">Choose a language:</label>
+          <select id="language">
+            <option value="eng">English (US)</option>
+            <option value="rus">Русский</option>
+            <option value="arm">Հայերեն</option>
+          </select>
+          <div class="form-group">
+            <label class="title">login</label>
+            <input type="text" class="form-control" name="login" />
+          </div>
+          <div class="form-group">
+            <label class="title">password</label>
+            <input type="password" class="form-control" name="password" />
+          </div>
+          <button type="submit" id="loginButton">Log in</button>
+          <span
+            >if you have not account
+            <a href="../../../index.html">Registrate</a>
+          </span>
+        </form>
+      </div>
+      <div>
+        <h2>Google Auth</h2>
+        <div class="g-signin2" data-onsuccess="onSignIn"></div>
+      </div>
+      <div
+        class="fb-login-button"
+        data-size="large"
+        data-button-type="login_with"
+        data-layout="default"
+        data-auto-logout-link="true"
+        data-use-continue-as="true"
+        data-width=""
+        onlogin="checkLoginState()"
+      ></div>
     </div>
-
-</body>
-
+  </body>
 </html>

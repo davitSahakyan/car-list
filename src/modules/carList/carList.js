@@ -2,17 +2,19 @@ import { carData } from "../data.js";
 import * as utils from "../utils.js";
 import * as services from "../services.js";
 
-
-
-const DATA_WITH_ID = carData.map(item => {
+const DATA_WITH_ID = carData.map((item) => {
   return { ...item, id: utils.randomIdGenerator() };
 });
-let data = JSON.parse(localStorage.getItem("data")) || localStorage.setItem("data", JSON.stringify([...DATA_WITH_ID])) || DATA_WITH_ID;
-
+let data =
+  JSON.parse(localStorage.getItem("data")) ||
+  localStorage.setItem("data", JSON.stringify([...DATA_WITH_ID])) ||
+  DATA_WITH_ID;
 
 const list = document.getElementById("carList");
 const pagination = document.getElementById("pagination");
-const pageChangeButtons = Array.from(document.getElementsByClassName("pageChange"));
+const pageChangeButtons = Array.from(
+  document.getElementsByClassName("pageChange")
+);
 const listElements = Array.from(document.getElementsByClassName("listElement"));
 const deleteBtnContainer = document.getElementById("deleteButtonContainer");
 const modalElement = document.getElementById("modalElement");
@@ -20,7 +22,7 @@ const draggables = Array.from(document.getElementsByClassName("draggable"));
 const serchInput = document.getElementById("serchInput");
 const searchButton = document.getElementById("searchButton");
 
-services.languageObject().then(res => {
+services.languageObject().then((res) => {
   searchButton.textContent = `${res.search}`;
 });
 
@@ -46,14 +48,17 @@ function openDeleteModal(id) {
     }
   };
   deleteButton.addEventListener("click", () => {
-    data = data.filter(item => {
+    data = data.filter((item) => {
       return item.id !== id;
     });
     filteredData = [...data];
     modal.style.display = "none";
     localStorage.setItem("data", JSON.stringify(data));
     let buttonColections = Array.from(document.getElementsByClassName("btn"));
-    if (data.length % itemsPerPage === 0 && currentPage === buttonColections.length) {
+    if (
+      data.length % itemsPerPage === 0 &&
+      currentPage === buttonColections.length
+    ) {
       currentPage = currentPage - 1;
       pagesCount = pagesCount - 1;
     }
@@ -70,7 +75,7 @@ function editClickedCarElement(id) {
 
 // Showlist starts here
 function showList(items, wrapper, itemsPerPage, page) {
-  listElements.forEach(element => element.innerHTML = "");
+  listElements.forEach((element) => (element.innerHTML = ""));
   deleteBtnContainer.innerHTML = "";
   page--;
 
@@ -87,7 +92,7 @@ function showList(items, wrapper, itemsPerPage, page) {
       span.textContent = `${listElements[element].id}`;
       listElements[element].appendChild(span);
     }
-    // for each pagination item 
+    // for each pagination item
     for (let i = 0; i < paginationItems.length; i++) {
       let listItem = paginationItems[i];
       const span = document.createElement("span");
@@ -127,7 +132,7 @@ function showList(items, wrapper, itemsPerPage, page) {
     }
   }
 
-  draggables.forEach(draggable => {
+  draggables.forEach((draggable) => {
     // Add class dragging on dragstart
     draggable.addEventListener("dragstart", () => {
       draggable.classList.add("dragging");
@@ -150,17 +155,22 @@ function showList(items, wrapper, itemsPerPage, page) {
 
 // gets drag after element
 function getDragAfterElement(list, x) {
-  const draggableElements = [...list.querySelectorAll(".draggable:not(.dragging)")];
+  const draggableElements = [
+    ...list.querySelectorAll(".draggable:not(.dragging)"),
+  ];
 
-  return draggableElements.reduce((closest, child) => {
-    const box = child.getBoundingClientRect();
-    const offset = x - box.left - box.width / 2;
-    if (offset < 0 && offset > closest.offset) {
-      return { offset: offset, element: child };
-    } else {
-      return closest;
-    }
-  }, { offset: Number.NEGATIVE_INFINITY }).element;
+  return draggableElements.reduce(
+    (closest, child) => {
+      const box = child.getBoundingClientRect();
+      const offset = x - box.left - box.width / 2;
+      if (offset < 0 && offset > closest.offset) {
+        return { offset: offset, element: child };
+      } else {
+        return closest;
+      }
+    },
+    { offset: Number.NEGATIVE_INFINITY }
+  ).element;
 }
 
 //  creates single pagination button and recives event click
@@ -191,9 +201,9 @@ function showPagination() {
     pagination.appendChild(button);
   }
 }
-// next and prev page buttons 
+// next and prev page buttons
 function nextAndPrev() {
-  pageChangeButtons.forEach(item => {
+  pageChangeButtons.forEach((item) => {
     item.addEventListener("click", (e) => {
       if (e.currentTarget.id === "INCREMENT" && currentPage < pagesCount) {
         currentPage = currentPage + 1;
@@ -211,7 +221,6 @@ function nextAndPrev() {
       buttonColection.classList.remove("active");
 
       activeButton.classList.add("active");
-
     });
   });
 }
@@ -221,11 +230,7 @@ let filteredData = [...data];
 searchButton.addEventListener("click", () => {
   let newFiteredData = data.filter((item) => {
     for (let key in item) {
-      if (item[key]
-        .toLowerCase()
-        .match(serchInput
-          .value
-          .toLowerCase())) {
+      if (item[key].toLowerCase().match(serchInput.value.toLowerCase())) {
         return true;
       }
     }
@@ -236,7 +241,6 @@ searchButton.addEventListener("click", () => {
   showList(newFiteredData, list, itemsPerPage, currentPage);
   showPagination();
 });
-
 
 showList(data, list, itemsPerPage, currentPage);
 showPagination();

@@ -1,4 +1,3 @@
-
 export function createModal(modalElement, language) {
   const modalContainer = document.createElement("div");
   const modalContent = document.createElement("div");
@@ -10,7 +9,6 @@ export function createModal(modalElement, language) {
     deleteButton.textContent = languageObject.delete;
     cancelButton.textContent = languageObject.cancel;
   });
-
 
   modalContainer.classList = "modal";
   modalContainer.id = "myModal";

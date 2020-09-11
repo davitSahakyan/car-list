@@ -1,47 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link rel="stylesheet" type="text/css" href="carList.css" />
+    <script type="module" src="./carList.js" defer></script>
+    <title>car-list</title>
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link rel="stylesheet" type="text/css" href="carList.css">
-  <script type="module" src="./carList.js" defer></script>
-  <title>car-list</title>
-</head>
+  <body>
+    <div id="root">
+      <div class="wrapper">
+        <div>
+          <input type="text" class="serchInput" id="serchInput" />
+          <button class="serchButton" id="searchButton"></button>
+        </div>
+        <div id="noItems">No items found</div>
+        <div id="carList" class="grid">
+          <div class="listElement draggable" id="Brand" draggable="true"></div>
+          <div class="listElement draggable" id="Model" draggable="true"></div>
+          <div class="listElement draggable" id="Date" draggable="true"></div>
+          <div
+            class="listElement draggable"
+            id="Horsepower"
+            draggable="true"
+          ></div>
+          <div
+            class="listElement draggable"
+            id="Transmission"
+            draggable="true"
+          ></div>
+          <div class="listElement draggable" id="Class" draggable="true"></div>
+          <div
+            class="listElement deleteButtonContainer action"
+            id="deleteButtonContainer"
+          ></div>
+          <!-- <div class="deleteButtonContainer action" id="deleteButtonContainer"></div> -->
+        </div>
 
-<body>
-  <div id="root">
-    <div class="wrapper">
-      <div>
-        <input type="text" class="serchInput" id="serchInput">
-        <button class="serchButton" id="searchButton"></button>
+        <div class="paginationContainer">
+          <button class="pageChange" id="DECREMENT" style="font-size: 24px">
+            <i class="fa fa-angle-left"></i>
+          </button>
+          <div class="pagination" id="pagination"></div>
+          <button class="pageChange" id="INCREMENT" style="font-size: 24px">
+            <i class="fa fa-angle-right"></i>
+          </button>
+        </div>
+        <div id="modalElement"></div>
       </div>
-      <div id="noItems">
-        No items found
-      </div>
-      <div id="carList" class="grid">
-        <div class="listElement draggable" id="Brand" draggable="true"></div>
-        <div class="listElement draggable" id="Model" draggable="true"></div>
-        <div class="listElement draggable" id="Date" draggable="true"></div>
-        <div class="listElement draggable" id="Horsepower" draggable="true"></div>
-        <div class="listElement draggable" id="Transmission" draggable="true"></div>
-        <div class="listElement draggable" id="Class" draggable="true"></div>
-        <div class="listElement deleteButtonContainer action" id="deleteButtonContainer"></div>
-        <!-- <div class="deleteButtonContainer action" id="deleteButtonContainer"></div> -->
-      </div>
-
-
-      <div class="paginationContainer">
-        <button class="pageChange" id="DECREMENT" style="font-size:24px"><i class="fa fa-angle-left"></i></button>
-        <div class="pagination" id="pagination"></div>
-        <button class="pageChange" id="INCREMENT" style="font-size:24px"> <i class="fa fa-angle-right"></i></button>
-      </div>
-      <div id="modalElement"></div>
     </div>
-  </div>
-
-</body>
-
+  </body>
 </html>
