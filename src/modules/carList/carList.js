@@ -22,9 +22,10 @@ const draggables = Array.from(document.getElementsByClassName("draggable"));
 const serchInput = document.getElementById("serchInput");
 const searchButton = document.getElementById("searchButton");
 
-services.languageObject().then((res) => {
-  searchButton.textContent = `${res.search}`;
-});
+const language = new services.Language();
+language
+  .languageObject()
+  .then((res) => (searchButton.textContent = `${res.search}`));
 
 let currentPage = 1;
 const itemsPerPage = 10;
@@ -33,7 +34,7 @@ let pagesCount = Math.ceil(data.length / itemsPerPage);
 // Creates modal deletes choosen element and saves new array in local storage
 function openDeleteModal(id) {
   modalElement.innerHTML = "";
-  utils.createModal(modalElement, services.languageObject());
+  utils.createModal(modalElement, language.languageObject());
   const modal = document.getElementById("myModal");
   modal.style.display = "block";
 
@@ -49,12 +50,8 @@ function openDeleteModal(id) {
   };
   deleteButton.addEventListener("click", () => {
     data = data.filter((item) => {
-      console.log("item.id", item.id);
-      console.log("id", id);
-      console.log(item.id !== id);
       return item.id !== id;
     });
-    console.log("data", data);
     filteredData = [...data];
     modal.style.display = "none";
     localStorage.setItem("data", JSON.stringify(data));

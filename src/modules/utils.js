@@ -36,11 +36,17 @@ export function randomIdGenerator() {
 
 export function addErrorClass(inputs) {
   let inputsAreValid = true;
+  const hasError = "hasError";
+
+  function addError(input) {
+    input.parentElement.classList = `form-group ${hasError}`;
+    inputsAreValid = false;
+  }
   inputs.forEach((input) => {
     if (input.value.length === 0) {
-      input.parentElement.classList = "form-group hasError";
-      inputsAreValid = false;
+      addError(input);
     }
   });
-  return inputsAreValid;
+
+  return { inputsAreValid, addError };
 }

@@ -16,7 +16,8 @@ carListBtn.addEventListener("click", () => {
   location.assign("../carList/carList.html");
 });
 
-services.languageObject().then((res) => changeLanguage(res));
+const language = new services.Language();
+language.languageObject().then((res) => changeLanguage(res));
 
 gapi.load("auth2", function () {
   gapi.auth2.init();
@@ -32,7 +33,6 @@ signOut.addEventListener("click", function signOut() {
 
 function createUserInfoBlock() {
   if (locale) {
-    console.log(locale);
     const userInfoBlock = document.getElementById("userInfoBlock");
     const wrapper = document.createElement("div");
     if (locale.type === "facebook" || locale.type === "google") {

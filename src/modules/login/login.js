@@ -52,17 +52,19 @@ function checkValidation(inputs) {
   });
   return isValid;
 }
-
-inputs.forEach((input) => {
-  input.addEventListener("textInput", () => {
-    if (input.name === "login" && input.value >= 6) {
-      return removeClass(input);
-    }
-    if (input.name === "password" && input.value >= 6) {
-      return removeClass(input);
-    }
+function onInputChange() {
+  inputs.forEach((input) => {
+    input.addEventListener("textInput", () => {
+      if (input.name === "login" && input.value >= 6) {
+        return removeClass(input);
+      }
+      if (input.name === "password" && input.value >= 6) {
+        return removeClass(input);
+      }
+    });
   });
-});
+}
+onInputChange();
 
 function verifyUser() {
   let isValid;

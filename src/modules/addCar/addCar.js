@@ -6,7 +6,8 @@ import * as services from "../services.js";
 function changeLanguage(lang) {
   document.getElementById("submitButton").textContent = `${lang.create}`;
 }
-services.languageObject().then((res) => changeLanguage(res));
+const language = new services.Language();
+language.languageObject().then((res) => changeLanguage(res));
 // Language part
 
 const DATA_WITH_ID = carData.map((item) => {
@@ -29,11 +30,10 @@ class Car {
 }
 
 // Add new car
-if (carForm) {
+function handleSubmit() {
   carForm.addEventListener("submit", (e) => {
     const inputs = Array.from(document.getElementsByClassName("form-control"));
-    console.log(inputs);
-    let inputsAreValid = utils.addErrorClass(inputs);
+    let inputsAreValid = utils.addErrorClass(inputs).inputsAreValid;
     if (inputsAreValid) {
       alert("Car created");
       const formData = Object.fromEntries(
@@ -48,3 +48,4 @@ if (carForm) {
     e.preventDefault();
   });
 }
+handleSubmit();
