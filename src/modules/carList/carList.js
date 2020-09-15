@@ -1,6 +1,7 @@
 import { carData } from "../data.js";
 import * as utils from "../utils.js";
 import * as services from "../services.js";
+import * as observer from "../observer.js";
 
 const DATA_WITH_ID = carData.map((item) => {
   return { ...item, id: utils.randomIdGenerator() };
@@ -21,6 +22,8 @@ const modalElement = document.getElementById("modalElement");
 const draggables = Array.from(document.getElementsByClassName("draggable"));
 const serchInput = document.getElementById("serchInput");
 const searchButton = document.getElementById("searchButton");
+
+const newObserver = new observer.Observable();
 
 const language = new services.Language();
 language
@@ -174,6 +177,17 @@ function getDragAfterElement(list, x) {
   ).element;
 }
 
+function removeActiveClass() {
+  let buttonColections = Array.from(document.getElementsByClassName("btn"));
+  const button = buttonColections.find((item) => {
+    return item.textContent == currentPage;
+  });
+  const buttonColection = document.getElementsByClassName("active")[0];
+  buttonColection.classList.remove("active");
+
+  button.classList.add("active");
+}
+
 //  creates single pagination button and recives event click
 function singlePaginationButton(page) {
   let button = document.createElement("button");
@@ -183,12 +197,11 @@ function singlePaginationButton(page) {
 
   button.addEventListener("click", () => {
     currentPage = page;
-    showList(filteredData, list, itemsPerPage, currentPage);
-
-    const buttonColection = document.getElementsByClassName("active")[0];
-    buttonColection.classList.remove("active");
-
-    button.classList.add("active");
+    newObserver.subscribe(() => {
+      showList(filteredData, list, itemsPerPage, currentPage);
+      removeActiveClass();
+    });
+    newObserver.fire();
   });
 
   return button;
@@ -208,20 +221,12 @@ function nextAndPrev() {
     item.addEventListener("click", (e) => {
       if (e.currentTarget.id === "INCREMENT" && currentPage < pagesCount) {
         currentPage++;
-        showList(filteredData, list, itemsPerPage, currentPage);
       } else if (e.currentTarget.id === "DECREMENT" && currentPage > 1) {
         currentPage--;
-        showList(filteredData, list, itemsPerPage, currentPage);
+      } else {
+        return;
       }
-
-      let buttonColections = Array.from(document.getElementsByClassName("btn"));
-      const activeButton = buttonColections.find((item) => {
-        return item.textContent == currentPage;
-      });
-      const buttonColection = document.getElementsByClassName("active")[0];
-      buttonColection.classList.remove("active");
-
-      activeButton.classList.add("active");
+      newObserver.fire();
     });
   });
 }
